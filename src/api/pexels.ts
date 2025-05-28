@@ -14,4 +14,18 @@ export const fetchPexelsPhotos = async () => {
     console.error('Error fetching photos:', error);
     throw error;
   }
+};
+
+export const fetchPhotoById = async (id: number) => {
+  try {
+    const response = await axios.get(`https://api.pexels.com/v1/photos/${id}`, {
+      headers: {
+        Authorization: API_KEY,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching photo:', error);
+    throw error;
+  }
 }; 

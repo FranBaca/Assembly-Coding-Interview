@@ -1,6 +1,6 @@
 import React from 'react';
 import { usePexelsPhotos } from '../hooks/usePexelsPhotos';
-import type { Photo } from '../types/pexels';
+import PhotoCard from './PhotoCard';
 
 const PhotoGrid: React.FC = () => {
   const { photos, loading, error } = usePexelsPhotos();
@@ -15,13 +15,8 @@ const PhotoGrid: React.FC = () => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {photos.map((photo: Photo) => (
-        <div key={photo.id} className="bg-white rounded shadow overflow-hidden">
-          <img src={photo.src.medium} alt={photo.alt} className="w-full h-48 object-cover" />
-          <div className="p-4">
-            <p className="text-sm text-gray-600">Photo by {photo.photographer}</p>
-          </div>
-        </div>
+      {photos.map((photo) => (
+        <PhotoCard key={photo.id} photo={photo} />
       ))}
     </div>
   );
