@@ -9,11 +9,20 @@ import axios from 'axios';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configure CORS
+const allowedOrigins = [
+  'https://assembly-coding-interview-client.vercel.app',
+  'https://assembly-coding-interview-client-29c9g0e14-franbacas-projects.vercel.app'
+];
+
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? process.env.CLIENT_URL // Your Vercel client URL
-    : 'http://localhost:5173', // Vite's default dev server port
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 
