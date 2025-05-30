@@ -38,16 +38,20 @@ export function usePhotoGallery() {
   const { photos: newPhotos, loading, error } = usePexelsPhotos(searchQuery, page, PHOTOS_PER_PAGE);
 
   useEffect(() => {
-    dispatch({ type: 'RESET' });
-    setPage(1);
+    if (searchQuery) {
+      dispatch({ type: 'RESET' });
+      setPage(1);
+    }
   }, [searchQuery]);
 
   useEffect(() => {
     if (newPhotos.length > 0) {
       dispatch({ type: 'APPEND_PHOTOS', payload: newPhotos });
+      dispatch({ type: 'SET_HAS_MORE', payload: newPhotos.length === PHOTOS_PER_PAGE });
+    } else if (!loading) {
+      dispatch({ type: 'SET_HAS_MORE', payload: false });
     }
-    dispatch({ type: 'SET_HAS_MORE', payload: newPhotos.length === PHOTOS_PER_PAGE });
-  }, [newPhotos]);
+  }, [newPhotos, loading]);
 
   const loadMore = useCallback(() => {
     if (!loading && state.hasMore) {
