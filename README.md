@@ -1,54 +1,120 @@
-# React + TypeScript + Vite
+# Assembly Code Interview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web application that allows users to search and explore high-quality photos using the Pexels API. Built with React, TypeScript, tRPC, and Express.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🔍 Real-time photo search
+- 🖼️ Responsive photo grid layout
+- ♾️ Infinite scroll pagination
+- 🎨 Modern UI with Tailwind CSS
+- ⚡ Fast and efficient API calls with tRPC
+- 📱 Mobile-friendly design
+- 🔄 Real-time search with debouncing
+- 🖼️ Photo detail view with download options
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Frontend
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+- tRPC Client
+- React Query
+- Framer Motion
+- React Router
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Backend
+- Node.js
+- Express
+- TypeScript
+- tRPC Server
+- Pexels API
+- Zod (Schema validation)
+
+## Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+- Pexels API key (Get it from [Pexels API](https://www.pexels.com/api/))
+
+## Project Structure
+
+```
+assembly-code-interview/
+├── client/                 # Frontend application
+│   ├── src/
+│   │   ├── components/    # React components
+│   │   ├── hooks/        # Custom React hooks
+│   │   ├── pages/        # Page components
+│   │   ├── types/        # TypeScript types
+│   │   └── utils/        # Utility functions
+│   └── ...
+└── server/                # Backend application
+    ├── src/
+    │   └── index.ts      # Server entry point
+    └── ...
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+### 1. Clone the repository
+```bash
+git clone <repository-url>
+cd assembly-code-interview
 ```
+
+### 2. Set up the server
+```bash
+cd server
+npm install
+```
+
+Create a `.env` file in the server directory:
+```env
+PORT=3000
+PEXELS_API_KEY=your_pexels_api_key_here
+```
+
+### 3. Set up the client
+```bash
+cd ../client
+npm install
+```
+
+### 4. Start development servers
+
+In the server directory:
+```bash
+npm run dev
+```
+
+In the client directory:
+```bash
+npm run dev
+```
+
+The application will be available at:
+- Frontend: http://localhost:3000
+- Backend: http://localhost:3000/trpc
+
+## Environment Variables
+
+### Server (.env)
+```
+PORT=3000
+PEXELS_API_KEY=your_pexels_api_key_here
+```
+
+### Client (.env)
+```
+VITE_API_URL=your_server_url_here
+```
+
+
+## Acknowledgments
+
+- [Pexels API](https://www.pexels.com/api/) for providing the photo data
+- [Vercel](https://vercel.com) for hosting
+- All the amazing open-source libraries used in this project
