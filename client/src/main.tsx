@@ -7,10 +7,17 @@ import App from './App';
 import './index.css';
 
 const queryClient = new QueryClient();
+
+const getBaseUrl = () => {
+  if (typeof window !== 'undefined') return ''; // browser should use relative path
+  if (process.env.VITE_API_URL) return process.env.VITE_API_URL; // SSR should use vercel url
+  return 'http://localhost:3001'; // dev SSR should use localhost
+};
+
 const trpcClient = trpc.createClient({
   links: [
     httpBatchLink({
-      url: 'http://localhost:3001/trpc',
+      url: `${getBaseUrl()}/trpc`,
     }),
   ],
 });
