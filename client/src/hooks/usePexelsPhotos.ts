@@ -4,8 +4,7 @@ import type { Photo } from '../types/pexels';
 const MIN_SEARCH_LENGTH = 2;
 const DEFAULT_QUERY = 'nature';
 
-export function usePexelsPhotos(searchQuery: string) {
-  // Only search if query is long enough, otherwise use default
+export function usePexelsPhotos(searchQuery: string, page: number, perPage: number = 20) {
   const effectiveQuery = searchQuery.length >= MIN_SEARCH_LENGTH 
     ? searchQuery 
     : DEFAULT_QUERY;
@@ -13,19 +12,21 @@ export function usePexelsPhotos(searchQuery: string) {
   const { data, isLoading, error } = trpc.searchPexels.useQuery(
     {
       query: effectiveQuery,
-      page: 1,
-      per_page: 20
+      page,
+      per_page: perPage
     },
     {
       // Cache results for 5 minutes
       staleTime: 5 * 60 * 1000,
-      // Don't refetch on window focus
       refetchOnWindowFocus: false,
     }
   );
 
   return {
     photos: data?.photos ?? [],
+    totalResults: data?.total_results ?? 0,
+    page: data?.page ?? page,
+    perPage: data?.per_page ?? perPage,
     loading: isLoading,
     error: error ? new Error(error.message) : null
   };

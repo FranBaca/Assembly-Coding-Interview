@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import PhotoCard from './PhotoCard';
 import type { Photo } from '../types/pexels';
@@ -20,7 +20,37 @@ const containerVariants = {
   }
 };
 
-const PhotoGrid: React.FC<PhotoGridProps> = ({ photos, loading, error }) => {
+// Custom comparison function for memo
+const arePropsEqual = (prevProps: PhotoGridProps, nextProps: PhotoGridProps) => {
+  // If loading or error state changed, re-render
+  if (prevProps.loading !== nextProps.loading || 
+      prevProps.error?.message !== nextProps.error?.message) {
+    return false;
+  }
+
+  // If search query changed, re-render
+  if (prevProps.searchQuery !== nextProps.searchQuery) {
+    return false;
+  }
+
+  // If photos array length changed, re-render
+  if (prevProps.photos.length !== nextProps.photos.length) {
+    return false;
+  }
+
+  // Deep compare photos array
+  return prevProps.photos.every((photo, index) => {
+    const nextPhoto = nextProps.photos[index];
+    return (
+      photo.id === nextPhoto.id &&
+      photo.src.medium === nextPhoto.src.medium &&
+      photo.alt === nextPhoto.alt &&
+      photo.photographer === nextPhoto.photographer
+    );
+  });
+};
+
+const PhotoGrid: React.FC<PhotoGridProps> = memo(({ photos, loading, error }) => {
   if (loading) {
     return (
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -66,6 +96,8 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ photos, loading, error }) => {
       </div>
     </motion.div>
   );
-};
+}, arePropsEqual);
+
+PhotoGrid.displayName = 'PhotoGrid';
 
 export default PhotoGrid; 

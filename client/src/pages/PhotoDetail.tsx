@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { usePhotoDetail } from '../hooks/usePhotoDetail';
 import { ArrowLeftIcon, ArrowDownTrayIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
@@ -9,6 +9,10 @@ const PhotoDetail: React.FC = () => {
   const { photo, loading, error } = usePhotoDetail(Number(id));
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (loading) {
     return <PhotoDetailSkeleton />;
@@ -72,16 +76,18 @@ const PhotoDetail: React.FC = () => {
         </div>
 
         {/* Main Content */}
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-xl">
           {/* Image Section */}
-          <div className="relative bg-gray-100">
-            <div className={`absolute inset-0 bg-gray-200 transition-opacity duration-500 ${
+          <div className="relative">
+            {/* Blur placeholder (reused from PhotoCard) */}
+            <div className={`absolute inset-0 bg-neutral-200 transition-opacity duration-300 ${
               isImageLoaded ? 'opacity-0' : 'opacity-100'
             }`} />
+            {/* Main image */}
             <img
               src={photo.src.large2x}
               alt={photo.alt}
-              className={`w-full h-[400px] object-contain transition-opacity duration-500 ${
+              className={`w-full h-[400px] max-h-[400px] object-contain transition-opacity duration-500 ${
                 isImageLoaded ? 'opacity-100' : 'opacity-0'
               }`}
               onLoad={() => setIsImageLoaded(true)}
@@ -106,12 +112,12 @@ const PhotoDetail: React.FC = () => {
           </div>
 
           {/* Content Section */}
-          <div className="p-2">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
+          <div className="p-4 sm:p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               {/* Left Column - Photo Info */}
-              <div className="lg:col-span-2 space-y-2">
-                <div className="bg-gray-50 rounded-xl p-3">
-                  <h1 className="text-xl font-bold text-gray-900 mb-1">
+              <div className="lg:col-span-2 space-y-4">
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <h1 className="text-xl font-bold text-gray-900 mb-2 break-words">
                     {photo.alt || 'Untitled Photo'}
                   </h1>
                   <div className="flex items-center space-x-2">
@@ -129,8 +135,8 @@ const PhotoDetail: React.FC = () => {
                 </div>
 
                 {/* Photo Details */}
-                <div className="bg-gray-50 rounded-xl p-3">
-                  <h2 className="text-base font-semibold text-gray-900 mb-1">Photo Details</h2>
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <h2 className="text-base font-semibold text-gray-900 mb-2">Photo Details</h2>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm text-gray-500">Dimensions</p>
@@ -150,8 +156,8 @@ const PhotoDetail: React.FC = () => {
                 </div>
 
                 {/* Download Options */}
-                <div className="bg-gray-50 rounded-xl p-3">
-                  <h2 className="text-base font-semibold text-gray-900 mb-1">Download Options</h2>
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <h2 className="text-base font-semibold text-gray-900 mb-2">Download Options</h2>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {[
                       { label: 'Original', url: photo.src.original },
@@ -174,9 +180,9 @@ const PhotoDetail: React.FC = () => {
               </div>
 
               {/* Right Column - Actions */}
-              <div className="space-y-2">
-                <div className="bg-gray-50 rounded-xl p-3">
-                  <h2 className="text-base font-semibold text-gray-900 mb-1">Quick Actions</h2>
+              <div className="space-y-4">
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <h2 className="text-base font-semibold text-gray-900 mb-2">Quick Actions</h2>
                   <div className="space-y-3">
                     <a
                       href={photo.src.original}
@@ -198,8 +204,8 @@ const PhotoDetail: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="bg-gray-50 rounded-xl p-3">
-                  <h2 className="text-base font-semibold text-gray-900 mb-1">Photographer Info</h2>
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <h2 className="text-base font-semibold text-gray-900 mb-2">Photographer Info</h2>
                   <div className="space-y-2">
                     <p className="text-sm text-gray-500">Photographer ID</p>
                     <p className="text-gray-900 font-medium">{photo.photographer_id}</p>

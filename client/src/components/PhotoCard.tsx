@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import type { Photo } from '../types/pexels';
@@ -9,7 +9,18 @@ interface PhotoCardProps {
   index?: number;
 }
 
-const PhotoCard: React.FC<PhotoCardProps> = ({ photo, index = 0 }) => {
+// Custom comparison function for memo
+const arePropsEqual = (prevProps: PhotoCardProps, nextProps: PhotoCardProps) => {
+  return (
+    prevProps.photo.id === nextProps.photo.id &&
+    prevProps.photo.src.medium === nextProps.photo.src.medium &&
+    prevProps.photo.alt === nextProps.photo.alt &&
+    prevProps.photo.photographer === nextProps.photo.photographer &&
+    prevProps.index === nextProps.index
+  );
+};
+
+const PhotoCard: React.FC<PhotoCardProps> = memo(({ photo, index = 0 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
@@ -73,6 +84,8 @@ const PhotoCard: React.FC<PhotoCardProps> = ({ photo, index = 0 }) => {
       </Link>
     </motion.div>
   );
-};
+}, arePropsEqual);
+
+PhotoCard.displayName = 'PhotoCard';
 
 export default PhotoCard; 

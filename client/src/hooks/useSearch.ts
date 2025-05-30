@@ -10,7 +10,6 @@ export function useSearch<T>({ items, searchKeys, debounceMs = 300 }: UseSearchO
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
 
-  // Debounce the search query
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedQuery(searchQuery);
@@ -19,7 +18,6 @@ export function useSearch<T>({ items, searchKeys, debounceMs = 300 }: UseSearchO
     return () => clearTimeout(timer);
   }, [searchQuery, debounceMs]);
 
-  // Filter items based on the debounced query
   const filteredItems = useMemo(() => {
     if (!debouncedQuery.trim()) {
       return items;

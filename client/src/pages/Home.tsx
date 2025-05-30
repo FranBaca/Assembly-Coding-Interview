@@ -1,31 +1,28 @@
-import React, { useState } from 'react';
-import PhotoGrid from '../components/PhotoGrid';
-import SearchInput from '../components/ui/SearchInput';
-import { usePexelsPhotos } from '../hooks/usePexelsPhotos';
+import React from 'react';
+import { usePhotoGallery } from '../hooks/usePhotoGallery';
+import { PhotoGallery } from '../components/PhotoGallery';
 
 const Home: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const { photos, loading, error } = usePexelsPhotos(searchQuery);
+  const {
+    searchQuery,
+    setSearchQuery,
+    photos,
+    hasMore,
+    loading,
+    error,
+    loadMore
+  } = usePhotoGallery();
 
   return (
-    <div className="min-h-screen w-full">
-      <main className="w-full px-4 sm:px-6 lg:px-8 py-8">
-        <div className="max-w-2xl mx-auto mb-8">
-          <SearchInput 
-            onSearch={setSearchQuery}
-            placeholder="Search for photos..."
-            isLoading={loading}
-          />
-        </div>
-        
-        <PhotoGrid 
-          searchQuery={searchQuery} 
-          photos={photos}
-          loading={loading}
-          error={error}
-        />
-      </main>
-    </div>
+    <PhotoGallery
+      searchQuery={searchQuery}
+      onSearch={setSearchQuery}
+      photos={photos}
+      loading={loading}
+      error={error}
+      hasMore={hasMore}
+      onLoadMore={loadMore}
+    />
   );
 };
 
