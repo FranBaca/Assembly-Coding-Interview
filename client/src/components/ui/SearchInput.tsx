@@ -27,12 +27,10 @@ export default function SearchInput({
   buttonClassName = '',
 }: SearchInputProps) {
   const [searchQuery, setSearchQuery] = useState(initialValue);
-  const [debouncedQuery, setDebouncedQuery] = useState(initialValue);
 
   // Handle debounced search
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedQuery(searchQuery);
       onQueryChange?.(searchQuery);
     }, debounceMs);
 

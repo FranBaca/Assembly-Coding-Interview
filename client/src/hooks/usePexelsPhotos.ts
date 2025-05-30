@@ -1,5 +1,4 @@
 import { trpc } from '../utils/trpc';
-import type { Photo } from '../types/pexels';
 
 const MIN_SEARCH_LENGTH = 2;
 const DEFAULT_QUERY = 'nature';
