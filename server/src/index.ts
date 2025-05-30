@@ -9,7 +9,13 @@ import axios from 'axios';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+// Configure CORS
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' 
+    ? process.env.CLIENT_URL // Your Vercel client URL
+    : 'http://localhost:5173', // Vite's default dev server port
+  credentials: true,
+}));
 
 const t = initTRPC.create();
 
