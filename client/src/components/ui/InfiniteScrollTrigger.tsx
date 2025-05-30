@@ -4,16 +4,21 @@ import { useInView } from 'react-intersection-observer';
 interface InfiniteScrollTriggerProps {
   onVisible: () => void;
   loading: boolean;
+  hasMore: boolean;
 }
 
-const InfiniteScrollTrigger = ({ onVisible, loading }: InfiniteScrollTriggerProps) => {
+const InfiniteScrollTrigger = ({ onVisible, loading, hasMore }: InfiniteScrollTriggerProps) => {
   const { ref, inView } = useInView({ triggerOnce: false });
 
   useEffect(() => {
-    if (inView && !loading) {
+    if (inView && !loading && hasMore) {
       onVisible();
     }
-  }, [inView, loading, onVisible]);
+  }, [inView, loading, hasMore, onVisible]);
+
+  if (!hasMore) {
+    return null;
+  }
 
   return (
     <div ref={ref} className="flex justify-center py-8">

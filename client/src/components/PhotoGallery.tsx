@@ -19,29 +19,33 @@ export function PhotoGallery({
   loading,
   error,
   hasMore,
-  onLoadMore
+  onLoadMore,
 }: PhotoGalleryProps) {
   return (
-    <div className="min-h-screen w-full">
-      <main className="w-full px-4 sm:px-6 lg:px-8 py-8">
-        <div className="max-w-2xl mx-auto mb-8">
-          <SearchInput 
-            onSearch={onSearch}
-            placeholder="Search for photos..."
-            isLoading={loading}
-          />
-        </div>
-        <PhotoGrid 
-          searchQuery={searchQuery} 
-          photos={photos}
-          loading={loading}
-          error={error}
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto mb-8">
+        <SearchInput
+          onSearch={onSearch}
+          placeholder="Search for photos..."
+          isLoading={loading}
+          initialValue={searchQuery}
         />
-        {/* Infinite scroll trigger */}
-        {hasMore && !error && (
-          <InfiniteScrollTrigger onVisible={onLoadMore} loading={loading} />
-        )}
-      </main>
+      </div>
+
+      <PhotoGrid
+        searchQuery={searchQuery}
+        photos={photos}
+        loading={loading}
+        error={error}
+      />
+
+      {!loading && hasMore && (
+        <InfiniteScrollTrigger
+          onVisible={onLoadMore}
+          loading={loading}
+          hasMore={hasMore}
+        />
+      )}
     </div>
   );
 } 

@@ -21,7 +21,11 @@ const photosReducer = (state: PhotosState, action: PhotosAction): PhotosState =>
     case 'APPEND_PHOTOS':
       return {
         ...state,
-        photos: state.photos.length === 0 ? action.payload : [...state.photos, ...action.payload]
+        photos: state.photos.length === 0 
+          ? action.payload 
+          : [...state.photos, ...action.payload.filter(
+              newPhoto => !state.photos.some(existingPhoto => existingPhoto.id === newPhoto.id)
+            )]
       };
     case 'SET_HAS_MORE':
       return { ...state, hasMore: action.payload };
@@ -33,6 +37,7 @@ const photosReducer = (state: PhotosState, action: PhotosAction): PhotosState =>
 export function usePhotoGallery() {
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [state, dispatch] = useReducer(photosReducer, { photos: [], hasMore: true });
 
   const { photos: newPhotos, loading, error } = usePexelsPhotos(searchQuery, page, PHOTOS_PER_PAGE);
@@ -47,24 +52,26 @@ export function usePhotoGallery() {
   useEffect(() => {
     if (newPhotos.length > 0) {
       dispatch({ type: 'APPEND_PHOTOS', payload: newPhotos });
-      dispatch({ type: 'SET_HAS_MORE', payload: newPhotos.length === PHOTOS_PER_PAGE });
+      dispatch({ type: 'SET_HAS_MORE', payload: newPhotos.length >= PHOTOS_PER_PAGE });
     } else if (!loading) {
       dispatch({ type: 'SET_HAS_MORE', payload: false });
     }
+    setIsLoadingMore(false);
   }, [newPhotos, loading]);
 
   const loadMore = useCallback(() => {
-    if (!loading && state.hasMore) {
+    if (!loading && !isLoadingMore && state.hasMore) {
+      setIsLoadingMore(true);
       setPage(prev => prev + 1);
     }
-  }, [loading, state.hasMore]);
+  }, [loading, isLoadingMore, state.hasMore]);
 
   return {
     searchQuery,
     setSearchQuery,
     photos: state.photos,
     hasMore: state.hasMore,
-    loading,
+    loading: loading || isLoadingMore,
     error,
     loadMore
   };

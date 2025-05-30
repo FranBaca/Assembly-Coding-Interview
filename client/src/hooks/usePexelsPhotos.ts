@@ -17,7 +17,12 @@ export function usePexelsPhotos(searchQuery: string, page: number, perPage: numb
     {
       // Cache results for 5 minutes
       staleTime: 5 * 60 * 1000,
+      // Prevent unnecessary refetches
       refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      // Don't retry failed requests
+      retry: false
     }
   );
 
