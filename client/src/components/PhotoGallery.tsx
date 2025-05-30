@@ -1,4 +1,3 @@
-import React from 'react';
 import PhotoGrid from './PhotoGrid';
 import SearchInput from './ui/SearchInput';
 import InfiniteScrollTrigger from './ui/InfiniteScrollTrigger';

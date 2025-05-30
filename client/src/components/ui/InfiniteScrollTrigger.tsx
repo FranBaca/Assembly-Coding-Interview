@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 interface InfiniteScrollTriggerProps {
@@ -6,10 +6,10 @@ interface InfiniteScrollTriggerProps {
   loading: boolean;
 }
 
-const InfiniteScrollTrigger: React.FC<InfiniteScrollTriggerProps> = ({ onVisible, loading }) => {
+const InfiniteScrollTrigger = ({ onVisible, loading }: InfiniteScrollTriggerProps) => {
   const { ref, inView } = useInView({ triggerOnce: false });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (inView && !loading) {
       onVisible();
     }

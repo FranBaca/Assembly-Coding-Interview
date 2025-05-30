@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface SkeletonProps {
   className?: string;
   variant?: 'text' | 'rectangular' | 'circular';
@@ -14,12 +12,12 @@ interface SkeletonProps {
  * @param height - The height of the skeleton
  * @param className - Additional CSS classes
  */
-const Skeleton: React.FC<SkeletonProps> = ({
+const Skeleton = ({
   className = '',
   variant = 'rectangular',
   width,
   height,
-}) => {
+}: SkeletonProps) => {
   const baseClasses = 'animate-pulse bg-gray-200';
   const variantClasses = {
     text: 'rounded',

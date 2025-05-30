@@ -1,8 +1,7 @@
-import React from 'react';
 import { usePhotoGallery } from '../hooks/usePhotoGallery';
 import { PhotoGallery } from '../components/PhotoGallery';
 
-const Home: React.FC = () => {
+const Home = () => {
   const {
     searchQuery,
     setSearchQuery,
