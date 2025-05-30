@@ -1,6 +1,6 @@
 import { createTRPCReact } from '@trpc/react-query';
 import { httpBatchLink } from '@trpc/client';
-import type { AppRouter } from '../../../server/src/index';
+import type { AppRouter } from '../../../shared/trpc';
 
 const getBaseUrl = () => {
   if (import.meta.env.VITE_API_URL) {
