@@ -11,14 +11,11 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 
-// Initialize tRPC
 const t = initTRPC.create();
 
-// Create router
 const router = t.router;
 const publicProcedure = t.procedure;
 
-// Define the Pexels photo schema
 const pexelsPhotoSchema = z.object({
   id: z.number(),
   width: z.number(),
@@ -43,7 +40,6 @@ const pexelsPhotoSchema = z.object({
   created_at: z.string().optional(),
 });
 
-// Define the Pexels response schema
 const pexelsResponseSchema = z.object({
   page: z.number(),
   per_page: z.number(),
@@ -52,7 +48,6 @@ const pexelsResponseSchema = z.object({
   next_page: z.string().optional(),
 });
 
-// Create the router
 const appRouter = router({
   searchPexels: publicProcedure
     .input(z.object({
@@ -94,10 +89,8 @@ const appRouter = router({
     }),
 });
 
-// Export type definition of API
 export type AppRouter = typeof appRouter;
 
-// Create Express middleware
 app.use(
   '/trpc',
   createExpressMiddleware({
@@ -105,7 +98,6 @@ app.use(
   })
 );
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 }); 
